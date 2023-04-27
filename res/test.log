@@ -1,0 +1,4 @@
+2023-02-28 16:27:05 ERROR /home/keenechen/Code_Test/data_serialization/src/test_rxi_log/test_rxi_log.c:20: Hello world
+2023-02-28 16:27:05 INFO  /home/keenechen/Code_Test/data_serialization/src/test_rxi_log/test_rxi_log.c:21: Hello world
+2023-02-28 16:27:05 FATAL /home/keenechen/Code_Test/data_serialization/src/test_rxi_log/test_rxi_log.c:22: Hello world
+2023-02-28 16:27:05 WARN  /home/keenechen/Code_Test/data_serialization/src/test_rxi_log/test_rxi_log.c:23: Hello world

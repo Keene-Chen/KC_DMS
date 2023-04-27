@@ -1,0 +1,25 @@
+{
+	"student":	[{
+			"id":	"3320190993209",
+			"name":	"zhangsan",
+			"class":	"IOT-19-2",
+			"depart":	"计算机与软件工程学院",
+			"age":	18,
+			"address":	{
+				"country":	"China",
+				"province":	"Szechwan"
+			},
+			"skill":	["C", "Java", "JavaScript"],
+			"score":	100.2,
+			"graduate":	false
+		}],
+	"teacher":	[{
+			"id":	"2220190993209",
+			"name":	"wangwu",
+			"depart":	"计算机与软件工程学院",
+			"age":	34,
+			"title":	"教授",
+			"grade":	99.8,
+			"gender":	false
+		}]
+}
