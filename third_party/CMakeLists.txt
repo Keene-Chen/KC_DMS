@@ -57,3 +57,8 @@ message(
   Doc: https://github.com/armink/EasyLogger/tree/master/docs/zh
   Note: This library needs to be configured by yourself
 ]]
+
+#[[
+  threadpool
+]]
+kc_add_library(threadpool SHADER threadpool/threadpool)
