@@ -11,7 +11,7 @@
 
 const int count = 100;
 
-void task(void* arg)
+void* task(void* arg)
 {
     int num = *(int*)arg;
     printf("[%ld]:thread is working, number = %d\n", pthread_self(), num);
