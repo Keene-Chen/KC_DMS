@@ -1,0 +1,75 @@
+{
+  "$schema": "./kc_dms.schema.json",
+  "data": [
+    {
+      "topic": "dht11",
+      "qos": 0,
+      "payload": {
+        "temp": 22.22,
+        "humi": 22.22,
+        "status": 0
+      }
+    },
+    {
+      "topic": "ap3216c",
+      "qos": 0,
+      "payload": {
+        "ir": 22.22,
+        "ps": 22.22,
+        "als": 22.22,
+        "status": 0
+      }
+    },
+    {
+      "topic": "icm20608",
+      "qos": 0,
+      "payload": {
+        "accel.x": 22.22,
+        "accel.y": 22.22,
+        "accel.z": 22.22,
+        "gyro.x": 22.22,
+        "gyro.y": 22.22,
+        "gyro.z": 22.22,
+        "temp": 22.22,
+        "status": 0
+      }
+    },
+    {
+      "topic": "light",
+      "qos": 0,
+      "payload": {
+        "raw": 4096,
+        "voltage": 4096,
+        "lux": 22.33,
+        "status": 0
+      }
+    },
+    {
+      "topic": "fire",
+      "qos": 0,
+      "payload": {
+        "open": 1,
+        "close": 0,
+        "status": 0
+      }
+    },
+    {
+      "topic": "fan",
+      "qos": 0,
+      "payload": {
+        "open": 1,
+        "close": 0,
+        "status": 0
+      }
+    },
+    {
+      "topic": "led",
+      "qos": 0,
+      "payload": {
+        "open": 1,
+        "close": 0,
+        "status": 0
+      }
+    }
+  ]
+}

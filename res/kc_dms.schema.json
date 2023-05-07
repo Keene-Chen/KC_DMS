@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "设备信息",
+  "description": "包含多个设备的信息",
+  "type": "object",
+  "required": [
+    "data"
+  ],
+  "properties": {
+    "data": {
+      "description": "设备信息列表",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "topic",
+          "qos",
+          "payload"
+        ],
+        "properties": {
+          "topic": {
+            "description": "设备主题",
+            "type": "string"
+          },
+          "qos": {
+            "description": "服务质量(QoS)等级",
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "payload": {
+            "description": "设备信息",
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "description": "设备状态,0表示正常,其他值表示出现异常",
+                "type": "integer",
+                "enum": [
+                  -1,
+                  0,
+                  1
+                ]
+              },
+              "temp": {
+                "description": "温度值",
+                "type": "number"
+              },
+              "humi": {
+                "description": "湿度值",
+                "type": "number"
+              },
+              "ir": {
+                "description": "红外值",
+                "type": "number"
+              },
+              "ps": {
+                "description": "距离值",
+                "type": "number"
+              },
+              "als": {
+                "description": "光照强度值",
+                "type": "number"
+              },
+              "accel.x": {
+                "description": "X轴加速度值",
+                "type": "number"
+              },
+              "accel.y": {
+                "description": "Y轴加速度值",
+                "type": "number"
+              },
+              "accel.z": {
+                "description": "Z轴加速度值",
+                "type": "number"
+              },
+              "gyro.x": {
+                "description": "X轴陀螺仪值",
+                "type": "number"
+              },
+              "gyro.y": {
+                "description": "Y轴陀螺仪值",
+                "type": "number"
+              },
+              "gyro.z": {
+                "description": "Z轴陀螺仪值",
+                "type": "number"
+              },
+              "raw": {
+                "description": "原始光照强度值",
+                "type": "integer"
+              },
+              "voltage": {
+                "description": "光照强度电压值",
+                "type": "integer"
+              },
+              "lux": {
+                "description": "光照强度值",
+                "type": "number"
+              },
+              "open": {
+                "description": "是否开启状态,1表示开启,0表示关闭",
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              },
+              "close": {
+                "description": "是否关闭状态,1表示关闭,0表示开启",
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

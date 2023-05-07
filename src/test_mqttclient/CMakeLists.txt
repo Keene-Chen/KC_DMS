@@ -25,5 +25,14 @@ function(add_test_file TEST_NAME TEST_FILE)
                                              yyjson)
 endfunction()
 
-add_test_file(client client.c)
-add_test_file(mqtt mqtt.c)
+add_executable(
+  kc_dms
+  kc_dms.c
+  dht11_cb.c
+  ap3216c_cb.c
+  icm20608_cb.c
+  light_cb.c
+  fire_cb.c
+  fan_cb.c
+  led_cb.c)
+target_link_libraries(kc_dms PRIVATE ${LIB_MQTTCLIENT} ${LIB_PTHREAD} yyjson)
