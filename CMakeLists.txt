@@ -1,23 +1,28 @@
 #[[
-  file    : data_serialization/CMakeLists.txt
+  file    : KC_DMS/CMakeLists.txt
   author  : KeeneChen
   date    : 2023.03.01-14:26:27
   details : This is the top-level CMakeLists.txt for the project
-  github  : https://github.com/Keene-Chen/data_serialization
+  github  : https://github.com/Keene-Chen/KC_DMS
 ]]
 
 cmake_minimum_required(VERSION 3.10.0)
-
-project(
-  KC_DMS
-  VERSION 1.0.0
-  DESCRIPTION "KC_DMS")
 
 # 设置语言标准
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CROSS_COMPILE_PATH
+    /home/keenechen/IMX6ULL/toolchain/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/
+)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+
+project(
+  KC_DMS
+  VERSION 1.0.0
+  DESCRIPTION "KC_DMS")
 
 # 包括colors.cmake模块,调用其中定义的宏
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -55,4 +60,3 @@ add_subdirectory(src/test_mqttclient)
 add_subdirectory(src/test_rxi_ini)
 add_subdirectory(src/test_rxi_log)
 add_subdirectory(src/test_easylogger)
-add_subdirectory(src/test_threadpool)

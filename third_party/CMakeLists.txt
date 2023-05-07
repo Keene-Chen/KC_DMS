@@ -6,9 +6,13 @@
 ]]
 
 project(
-  test_3rd
+  third_party
   VERSION 1.0.0
-  DESCRIPTION "test_3rd")
+  DESCRIPTION "third_party")
+
+# 设置静态库、动态库生成位置
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME})
 
 # Custom functions are used to compile third-party libraries
 function(kc_add_library LIB_NAME LIB_TYPE LIB_PATH)
@@ -19,7 +23,7 @@ function(kc_add_library LIB_NAME LIB_TYPE LIB_PATH)
     PUBLIC ${CMAKE_CURRENT_LIST_DIR}/${LIB_PATH}.h)
   target_include_directories(${LIB_NAME}
                              PUBLIC ${CMAKE_CURRENT_LIST_DIR}/${LIB_NAME})
-  message(STATUS "${BoldMagenta}>>> ${LIB_NAME}.so >>>${ColourReset}")
+  message(STATUS "${BoldMagenta}>>> ${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}/${LIB_NAME}.so >>>${ColourReset}")
 endfunction(kc_add_library)
 
 #[[
@@ -49,7 +53,7 @@ target_compile_definitions(rxi_log PRIVATE -DLOG_USE_COLOR)
 ]]
 message(
   STATUS
-    "${BoldBlue}>>> see also ${CMAKE_SOURCE_DIR}/src/test_easylogger >>>${ColourReset}"
+    "${BoldGreen}>>> ${CMAKE_SOURCE_DIR}/src/test_easylogger >>>${ColourReset}"
 )
 
 #[[
@@ -57,8 +61,3 @@ message(
   Doc: https://github.com/armink/EasyLogger/tree/master/docs/zh
   Note: This library needs to be configured by yourself
 ]]
-
-#[[
-  threadpool
-]]
-kc_add_library(threadpool SHADER threadpool/threadpool)
