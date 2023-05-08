@@ -1,7 +1,7 @@
 #include "kc_dms.h"
 
-/* fire传感器数据发送线程回调函数 */
-void* fire_publish_thread(void* arg)
+/* led传感器数据发送线程回调函数 */
+void* led_publish_thread(void* arg)
 {
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
@@ -27,15 +27,15 @@ void* fire_publish_thread(void* arg)
             yyjson_mut_obj_add_int(doc, root, "open", 0);
             yyjson_mut_obj_add_int(doc, root, "close", 1);
         }
-        yyjson_mut_obj_add_int(doc, root, "status", random_number_range(0, 2));
+        yyjson_mut_obj_add_int(doc, root, "status", random_number_range(0, 1));
 
         // 写入字符串
         const char* json = yyjson_mut_write(doc, 0, NULL);
 
-        // topic: fire qos0
+        // topic: led qos0
         msg.qos     = 0;
         msg.payload = (void*)json;
-        mqtt_publish(client, "fire", &msg);
+        mqtt_publish(client, LED_TOPIC, &msg);
 
         yyjson_mut_doc_free(doc);
         sleep(SLEEP_TIME);

@@ -54,9 +54,8 @@ enable_testing()
 
 # 添加子目录
 add_subdirectory(third_party)
-add_subdirectory(src/test_cJSON)
+add_subdirectory(src/main)
 add_subdirectory(src/test_yyjson)
-add_subdirectory(src/test_mqttclient)
 add_subdirectory(src/test_rxi_ini)
 add_subdirectory(src/test_rxi_log)
 add_subdirectory(src/test_easylogger)

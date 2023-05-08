@@ -15,9 +15,9 @@ void* icm20608_publish_thread(void* arg)
     mqtt_list_subscribe_topic(client);
 
     /* 读取传感器数据 */
-    int fd = open("/dev/icm20608", O_RDWR);
+    int fd = open(ICM20608_DEV, O_RDWR);
     if (fd < 0) {
-        printf("file %s open failed!\r\n", "/dev/icm20608");
+        printf("file %s open failed!\r\n", ICM20608_DEV);
         exit(EXIT_FAILURE);
     }
 
@@ -57,7 +57,7 @@ void* icm20608_publish_thread(void* arg)
         // topic: icm20608 qos0
         msg.qos     = 0;
         msg.payload = (void*)json;
-        mqtt_publish(client, "icm20608", &msg);
+        mqtt_publish(client, ICM20608_TOPIC, &msg);
 
         memset(&buf, 0, sizeof(buf));
         yyjson_mut_doc_free(doc);

@@ -23,15 +23,11 @@ function(kc_add_library LIB_NAME LIB_TYPE LIB_PATH)
     PUBLIC ${CMAKE_CURRENT_LIST_DIR}/${LIB_PATH}.h)
   target_include_directories(${LIB_NAME}
                              PUBLIC ${CMAKE_CURRENT_LIST_DIR}/${LIB_NAME})
-  message(STATUS "${BoldMagenta}>>> ${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}/${LIB_NAME}.so >>>${ColourReset}")
+  message(
+    STATUS
+      "${BoldMagenta}>>> ${CMAKE_SOURCE_DIR}/bin/${PROJECT_NAME}/${LIB_NAME}.so >>>${ColourReset}"
+  )
 endfunction(kc_add_library)
-
-#[[
-  cJSON: https://github.com/DaveGamble/cJSON
-  Doc: https://github.com/DaveGamble/cJSON#usage
-]]
-kc_add_library(cJSON SHARED cJSON/cJSON)
-kc_add_library(cJSON_Utils SHARED cJSON/cJSON_Utils)
 
 #[[
   yyjson: https://github.com/ibireme/yyjson
@@ -53,8 +49,7 @@ target_compile_definitions(rxi_log PRIVATE -DLOG_USE_COLOR)
 ]]
 message(
   STATUS
-    "${BoldGreen}>>> ${CMAKE_SOURCE_DIR}/src/test_easylogger >>>${ColourReset}"
-)
+    "${BoldGreen}>>> ${CMAKE_SOURCE_DIR}/src/test_easylogger >>>${ColourReset}")
 
 #[[
   mqttclient: https://github.com/armink/EasyLogger
