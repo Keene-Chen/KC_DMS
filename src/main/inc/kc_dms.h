@@ -14,7 +14,7 @@
 #include "random.h"
 #include "yyjson.h"
 
-#define PUB_NUM    5000
+#define PUB_NUM    50000
 #define SLEEP_TIME 1
 
 /* MQTT TOPIC */
@@ -45,6 +45,15 @@ void* fire_publish_thread(void* arg);
 void* beep_publish_thread(void* arg);
 void* led_publish_thread(void* arg);
 
+/* 主题事件函数 */
+void dht11_handler(void* client, message_data_t* msg);
+void ap3216c_handler(void* client, message_data_t* msg);
+void icm20608_handler(void* client, message_data_t* msg);
+void light_handler(void* client, message_data_t* msg);
+void fire_handler(void* client, message_data_t* msg);
+void beep_handler(void* client, message_data_t* msg);
+void led_handler(void* client, message_data_t* msg);
+
 /* 应用层设备操作函数 */
 #define DHT11_DEV    "/dev/dht11"
 #define AP3216C_DEV  "/dev/ap3216c"
@@ -56,5 +65,20 @@ void* led_publish_thread(void* arg);
 void open_dev(const char* dev);
 void close_dev(const char* dev);
 void delay_s_dev(const char* dev, int delay);
+
+/* 版本信息 */
+#define KCDMS_MAJOR  1
+#define KCDMS_MINJOR 0
+#define KCDMS_FIX    0
+#define prompt(maj, min, fix)                                                                    \
+    printf("\n\033[1;35m ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ \033[1;0m\n");           \
+    printf("\033[1;35m ┃ KC_DMS                                     ┃ \033[1;0m\n");             \
+    printf("\033[1;35m ┃ Author : KeeneChen                         ┃ \033[1;0m\n");             \
+    printf("\033[1;35m ┃ Version: v%d.%d.%d                            ┃ \033[1;0m\n", maj, min, \
+           fix);                                                                                 \
+    printf("\033[1;35m ┃ GitHub : https://github.com/Keene-Chen     ┃ \033[1;0m\n");             \
+    printf("\033[1;35m ┃ Data monitoring system for embedded Linux  ┃ \033[1;0m\n");             \
+    printf("\033[1;35m ┃ and EMQX cloud platform                    ┃ \033[1;0m\n");             \
+    printf("\033[1;35m ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ \033[1;0m\n");
 
 #endif // __KC_DMS_H__

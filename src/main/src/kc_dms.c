@@ -3,52 +3,10 @@
 #include "yyjson.h"
 #include <unistd.h>
 
-static void topic1_handler(void* client, message_data_t* msg)
-{
-    (void)client;
-    MQTT_LOG_I("%s:%d %s()...\r\ntopic: %s\r\nmessage:%s\r\n", __FILE__, __LINE__, __FUNCTION__,
-               msg->topic_name, (char*)msg->message->payload);
-}
-
-static void dht11_handler(void* client, message_data_t* msg)
-{
-    (void)client;
-    // MQTT_LOG_I("%s:%d %s()...\r\ntopic: %s\r\nmessage:%s\r\n", __FILE__, __LINE__, __FUNCTION__,
-    //            msg->topic_name, (char*)msg->message->payload);
-    yyjson_doc* doc =
-        yyjson_read((char*)msg->message->payload, strlen((char*)msg->message->payload), 0);
-
-    if (doc) {
-        yyjson_val* temp = yyjson_obj_get(doc->root, "temp");
-        yyjson_val* humi = yyjson_obj_get(doc->root, "humi");
-        if (yyjson_get_real(temp) > 30 || yyjson_get_real(humi) > 70) {
-            delay_s_dev(LED_DEV, 1);
-        }
-    }
-    yyjson_doc_free(doc);
-}
-
-static void light_handler(void* client, message_data_t* msg)
-{
-    (void)client;
-    // MQTT_LOG_I("%s:%d %s()...\r\ntopic: %s\r\nmessage:%s\r\n", __FILE__, __LINE__, __FUNCTION__,
-    //            msg->topic_name, (char*)msg->message->payload);
-    yyjson_doc* doc =
-        yyjson_read((char*)msg->message->payload, strlen((char*)msg->message->payload), 0);
-
-    if (doc) {
-        yyjson_val* light = yyjson_obj_get(doc->root, "light");
-        if (yyjson_get_real(light) > 100) {
-            delay_s_dev(LED_DEV, 1);
-        }
-    }
-    yyjson_doc_free(doc);
-}
-
 int main(void)
 {
     int ret;
-    printf("\nwelcome to mqttclient test...\n");
+    prompt(KCDMS_MAJOR, KCDMS_MINJOR, KCDMS_FIX);
 
     /* 日志初始化 */
     mqtt_log_init();
@@ -69,12 +27,12 @@ int main(void)
 
     /* 订阅主题 */
     mqtt_subscribe(client, "dht11", QOS0, dht11_handler);
-    // mqtt_subscribe(client, "ap3216c", QOS0, topic1_handler);
-    // mqtt_subscribe(client, "icm20608", QOS0, topic1_handler);
+    mqtt_subscribe(client, "ap3216c", QOS0, ap3216c_handler);
+    mqtt_subscribe(client, "icm20608", QOS0, icm20608_handler);
     mqtt_subscribe(client, "light", QOS0, light_handler);
-    // mqtt_subscribe(client, "fire", QOS0, topic1_handler);
-    // mqtt_subscribe(client, "fan", QOS0, topic1_handler);
-    // mqtt_subscribe(client, "led", QOS0, topic1_handler);
+    mqtt_subscribe(client, "fire", QOS0, fire_handler);
+    mqtt_subscribe(client, "beep", QOS0, beep_handler);
+    mqtt_subscribe(client, "led", QOS0, led_handler);
 
     /* 创建发送线程 */
     pthread_t thread[8];
