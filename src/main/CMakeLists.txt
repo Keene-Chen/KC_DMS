@@ -27,6 +27,7 @@ include_directories(./inc)
 
 # 生成可执行文件
 aux_source_directory(./callback callback)
+aux_source_directory(./event_handler event_handler)
 aux_source_directory(./tools tools)
-add_executable(kc_dms src/kc_dms.c ${callback} ${tools})
+add_executable(kc_dms src/kc_dms.c ${callback} ${event_handler} ${tools})
 target_link_libraries(kc_dms PRIVATE ${LIB_MQTTCLIENT} ${LIB_PTHREAD} yyjson)
