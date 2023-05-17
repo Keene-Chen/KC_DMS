@@ -11,7 +11,10 @@ void light_handler(void* client, message_data_t* msg)
     if (doc) {
         yyjson_val* light = yyjson_obj_get(doc->root, "light");
         if (yyjson_get_real(light) > 300) {
-            delay_s_dev(LED_DEV, 1);
+            open_dev(GREEN_LED);
+        }
+        else {
+            close_dev(GREEN_LED);
         }
     }
     yyjson_doc_free(doc);

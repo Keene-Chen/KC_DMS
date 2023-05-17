@@ -19,8 +19,8 @@ int main(void)
     mqtt_set_user_name(client, "chen");
     mqtt_set_password(client, "2555");
     mqtt_set_clean_session(client, 1);
-    mqtt_set_write_buf_size(client, 3072);
-    mqtt_set_read_buf_size(client, 3072);
+    mqtt_set_write_buf_size(client, 1024);
+    mqtt_set_read_buf_size(client, 1024);
 
     /* 建立MQTT连接 */
     mqtt_connect(client);

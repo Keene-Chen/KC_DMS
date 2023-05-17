@@ -61,7 +61,9 @@ void led_handler(void* client, message_data_t* msg);
 #define LIGHT_DEV    "/dev/light"
 #define FIRE_DEV     "/dev/fire"
 #define BEEP_DEV     "/dev/beep_misc"
-#define LED_DEV      "/dev/gpioled"
+#define RED_LED      "/dev/redled"
+#define GREEN_LED    "/dev/greenled"
+#define BLUE_LED     "/dev/blueled"
 void open_dev(const char* dev);
 void close_dev(const char* dev);
 void delay_s_dev(const char* dev, int delay);

@@ -13,7 +13,7 @@
 /* adc iio框架对应的文件路径 */
 static char* file_path[] = {
     "/sys/bus/iio/devices/iio:device0/in_voltage_scale",
-    "/sys/bus/iio/devices/iio:device0/in_voltage8_raw",
+    "/sys/bus/iio/devices/iio:device0/in_voltage4_raw",
 };
 
 /* 文件路径索引，要和file_path里面的文件顺序对应 */

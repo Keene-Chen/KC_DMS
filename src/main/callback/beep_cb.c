@@ -6,20 +6,25 @@ void* beep_publish_thread(void* arg)
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
     memset(&msg, 0, sizeof(msg));
-    unsigned short buf[3] = { 0 };
+    unsigned short buf[1] = { 0 };
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
 
     /* 读取传感器数据 */
-    // int fd = open(BEEP_DEV, O_RDWR);
-    // if (fd < 0) {
-    //     printf("file %s open failed!\r\n", BEEP_DEV);
-    //     exit(EXIT_FAILURE);
-    // }
+    int fd = open(BEEP_DEV, O_RDWR);
+    if (fd < 0) {
+        printf("file %s open failed!\r\n", BEEP_DEV);
+        exit(EXIT_FAILURE);
+    }
 
     /* 循环读取并发送数据 */
     for (int i = 0; i < PUB_NUM; ++i) {
+        int ret = read(fd, buf, sizeof(buf));
+        if (ret != 0) {
+            printf("read failed!\r\n");
+            goto read_fail;
+        }
 
         /* 使用json构建payload */
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
@@ -27,7 +32,7 @@ void* beep_publish_thread(void* arg)
         yyjson_mut_doc_set_root(doc, root);
 
         // Set root["name"] and root["star"]
-        if (random_number_range(0, 2)) {
+        if (buf[0] == 1) {
             yyjson_mut_obj_add_int(doc, root, "open", 1);
             yyjson_mut_obj_add_int(doc, root, "close", 0);
         }
@@ -35,7 +40,7 @@ void* beep_publish_thread(void* arg)
             yyjson_mut_obj_add_int(doc, root, "open", 0);
             yyjson_mut_obj_add_int(doc, root, "close", 1);
         }
-        yyjson_mut_obj_add_int(doc, root, "status", random_number_range(0, 1));
+        yyjson_mut_obj_add_int(doc, root, "status", buf[0]);
 
         // 写入字符串
         const char* json = yyjson_mut_write(doc, 0, NULL);
@@ -49,8 +54,8 @@ void* beep_publish_thread(void* arg)
         sleep(SLEEP_TIME);
     }
 
-    // read_fail:
-    //     close(fd);
+read_fail:
+    close(fd);
 
     return NULL;
 }

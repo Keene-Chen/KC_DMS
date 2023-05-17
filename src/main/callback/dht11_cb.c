@@ -33,7 +33,7 @@ void* dht11_publish_thread(void* arg)
 
         // Set root["name"] and root["star"]
         yyjson_mut_obj_add_real(doc, root, "temp", buf[2] - 1 + ((float)buf[3] / 10));
-        yyjson_mut_obj_add_real(doc, root, "humi", buf[0] + 20);
+        yyjson_mut_obj_add_real(doc, root, "humi", buf[0] + 10);
         yyjson_mut_obj_add_int(doc, root, "status", 0);
 
         // 写入字符串
