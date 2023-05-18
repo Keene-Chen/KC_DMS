@@ -15,7 +15,7 @@
 #include "yyjson.h"
 #include "rxi_log.h"
 
-#define PUB_NUM    2
+#define PUB_NUM    10000
 #define SLEEP_TIME 1
 
 /* MQTT TOPIC */
