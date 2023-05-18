@@ -20,15 +20,15 @@ void* led_publish_thread(void* arg)
     fd[1]     = open(GREEN_LED, O_RDWR);
     fd[2]     = open(BLUE_LED, O_RDWR);
     if (fd[0] < 0) {
-        printf("file %s open failed!\r\n", RED_LED);
+        log_error("file %s open failed!", RED_LED);
         exit(EXIT_FAILURE);
     }
     else if (fd[1] < 0) {
-        printf("file %s open failed!\r\n", GREEN_LED);
+        log_error("file %s open failed!", GREEN_LED);
         exit(EXIT_FAILURE);
     }
     else if (fd[2] < 0) {
-        printf("file %s open failed!\r\n", BLUE_LED);
+        log_error("file %s open failed!", BLUE_LED);
         exit(EXIT_FAILURE);
     }
 
@@ -38,7 +38,7 @@ void* led_publish_thread(void* arg)
         ret = read(fd[1], greenled_data, sizeof(greenled_data));
         ret = read(fd[2], blueled_data, sizeof(blueled_data));
         if (ret != 0) {
-            printf("read failed!\r\n");
+            log_error("read failed!");
             goto read_fail;
         }
 

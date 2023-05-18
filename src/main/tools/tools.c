@@ -6,7 +6,7 @@ void open_dev(const char* dev)
 {
     int fd = open(dev, O_RDWR);
     if (fd < 0) {
-        perror("open device failed");
+        log_error("open device failed");
         exit(EXIT_FAILURE);
     }
     unsigned char data = 1;
@@ -19,7 +19,7 @@ void close_dev(const char* dev)
 {
     int fd = open(dev, O_RDWR);
     if (fd < 0) {
-        perror("close device failed");
+        log_error("close device failed");
         exit(EXIT_FAILURE);
     }
     unsigned char data = 0;

@@ -15,7 +15,7 @@ void* dht11_publish_thread(void* arg)
     /* 读取传感器数据 */
     int fd = open(DHT11_DEV, O_RDWR);
     if (fd < 0) {
-        printf("file %s open failed!\r\n", DHT11_DEV);
+        log_error("file %s open failed!", DHT11_DEV);
         exit(EXIT_FAILURE);
     }
 
@@ -23,7 +23,7 @@ void* dht11_publish_thread(void* arg)
     for (int i = 0; i < PUB_NUM; ++i) {
         ret = read(fd, buf, sizeof(buf));
         if (ret != 0) {
-            printf("read failed!\r\n");
+            log_error("read failed!");
             goto read_fail;
         }
 

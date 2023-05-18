@@ -46,13 +46,13 @@ static int file_data_read(char* filename, char* str)
 
     data_stream = fopen(filename, "r"); /* 只读打开 */
     if (data_stream == NULL) {
-        printf("can't open file %s\r\n", filename);
+        log_error("can't open file %s", filename);
         return -1;
     }
 
     ret = fscanf(data_stream, "%s", str);
     if (!ret) {
-        printf("file read error!\r\n");
+        log_error("file read error!");
     }
     else if (ret == EOF) {
         /* 读到文件末尾的话将文件指针重新调整到文件头 */

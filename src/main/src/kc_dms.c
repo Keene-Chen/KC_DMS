@@ -10,6 +10,7 @@ int main(void)
 
     /* 日志初始化 */
     mqtt_log_init();
+    file_log_init("./kc_dms.log");
 
     /* 连接配置 */
     mqtt_client_t* client = mqtt_lease();

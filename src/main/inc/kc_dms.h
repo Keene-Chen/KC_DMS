@@ -13,8 +13,9 @@
 #include "mqttclient.h"
 #include "random.h"
 #include "yyjson.h"
+#include "rxi_log.h"
 
-#define PUB_NUM    50000
+#define PUB_NUM    2
 #define SLEEP_TIME 1
 
 /* MQTT TOPIC */
@@ -31,10 +32,20 @@
     do {                                                                    \
         ret = pthread_create(&thrid, NULL, sense##_publish_thread, client); \
         if (ret != 0) {                                                     \
-            MQTT_LOG_E("create mqtt publish thread fail");                  \
+            log_error("create mqtt publish thread fail");                  \
             exit(ret);                                                      \
         }                                                                   \
     } while (0);
+
+/* 初始化日志库 */
+#define file_log_init(file_path)         \
+    FILE* fp = fopen(file_path, "a+");   \
+    if (fp == NULL) {                    \
+        printf("failed to open file\n"); \
+        return -1;                       \
+    }                                    \
+    log_add_fp(fp, LOG_INFO);            \
+    log_set_quiet(false);
 
 /* 发送线程回调函数 */
 void* dht11_publish_thread(void* arg);
@@ -67,6 +78,12 @@ void led_handler(void* client, message_data_t* msg);
 void open_dev(const char* dev);
 void close_dev(const char* dev);
 void delay_s_dev(const char* dev, int delay);
+
+/* 传感器预警值 */
+#define TEMP_ALERT  31
+#define HUMI_ALERT  70
+#define FIRE_ALERT  4000
+#define LIGHT_ALERT 300
 
 /* 版本信息 */
 #define KCDMS_MAJOR  1

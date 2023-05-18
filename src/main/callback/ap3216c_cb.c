@@ -1,4 +1,5 @@
 #include "kc_dms.h"
+#include "rxi_log.h"
 
 /* ap3216c传感器数据发送线程回调函数 */
 void* ap3216c_publish_thread(void* arg)
@@ -15,7 +16,7 @@ void* ap3216c_publish_thread(void* arg)
     /* 读取传感器数据 */
     int fd = open(AP3216C_DEV, O_RDWR);
     if (fd < 0) {
-        printf("file %s open failed!\r\n", AP3216C_DEV);
+        log_error("file %s open failed!", AP3216C_DEV);
         exit(EXIT_FAILURE);
     }
 
@@ -23,7 +24,7 @@ void* ap3216c_publish_thread(void* arg)
     for (int i = 0; i < PUB_NUM; ++i) {
         ret = read(fd, buf, sizeof(buf));
         if (ret != 0) {
-            printf("read failed!\r\n");
+            log_error("read failed!");
             goto read_fail;
         }
 
