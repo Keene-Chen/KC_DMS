@@ -105,10 +105,8 @@ void* fire_publish_thread(void* arg)
             yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
             yyjson_mut_val* root = yyjson_mut_obj(doc);
             yyjson_mut_doc_set_root(doc, root);
-
-            // Set root["name"] and root["star"]
             yyjson_mut_obj_add_int(doc, root, "raw", avg);
-            yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act/100);
+            yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act / 100);
             if (avg < 4000) {
                 yyjson_mut_obj_add_int(doc, root, "status", 1);
             }
@@ -116,14 +114,12 @@ void* fire_publish_thread(void* arg)
                 yyjson_mut_obj_add_int(doc, root, "status", 0);
             }
 
-            // 写入字符串
-            const char* json = yyjson_mut_write(doc, 0, NULL);
-
             // topic: fire qos0
             msg.qos     = 0;
-            msg.payload = (void*)json;
+            msg.payload = (void*)yyjson_mut_write(doc, 0, NULL);
             mqtt_publish(client, FIRE_TOPIC, &msg);
 
+            memset(&msg, 0, sizeof(msg));
             yyjson_mut_doc_free(doc);
             sleep(SLEEP_TIME);
         }

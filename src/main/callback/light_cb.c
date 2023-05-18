@@ -116,27 +116,23 @@ void* light_publish_thread(void* arg)
         }
         avg = count / 20;
         if (ret == 0) { /* 数据读取成功 */
-            float lx = (a * exp(b * avg) + c * exp(d * avg));
+            float lux = (a * exp(b * avg) + c * exp(d * avg));
 
             /* 使用json构建payload */
             yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
             yyjson_mut_val* root = yyjson_mut_obj(doc);
             yyjson_mut_doc_set_root(doc, root);
-
-            // Set root["name"] and root["star"]
             yyjson_mut_obj_add_int(doc, root, "raw", avg);
             yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act);
-            yyjson_mut_obj_add_real(doc, root, "light", lx);
-            yyjson_mut_obj_add_int(doc, root, "status", random_number_range(0, 1));
-
-            // 写入字符串
-            const char* json = yyjson_mut_write(doc, 0, NULL);
+            yyjson_mut_obj_add_real(doc, root, "light", lux);
+            yyjson_mut_obj_add_int(doc, root, "status", 1);
 
             // topic: light qos0
             msg.qos     = 0;
-            msg.payload = (void*)json;
+            msg.payload = (void*)yyjson_mut_write(doc, 0, NULL);
             mqtt_publish(client, LIGHT_TOPIC, &msg);
 
+            memset(&msg, 0, sizeof(msg));
             yyjson_mut_doc_free(doc);
             sleep(SLEEP_TIME);
         }

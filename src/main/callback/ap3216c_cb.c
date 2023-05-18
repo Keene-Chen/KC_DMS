@@ -6,6 +6,7 @@ void* ap3216c_publish_thread(void* arg)
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
     memset(&msg, 0, sizeof(msg));
+    int ret               = 0;
     unsigned short buf[3] = { 0 };
 
     /* 监听订阅主题 */
@@ -20,7 +21,7 @@ void* ap3216c_publish_thread(void* arg)
 
     /* 循环读取并发送数据 */
     for (int i = 0; i < PUB_NUM; ++i) {
-        int ret = read(fd, buf, sizeof(buf));
+        ret = read(fd, buf, sizeof(buf));
         if (ret != 0) {
             printf("read failed!\r\n");
             goto read_fail;
@@ -30,21 +31,17 @@ void* ap3216c_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-
-        // Set root["name"] and root["star"]
         yyjson_mut_obj_add_int(doc, root, "ir", buf[0]);
         yyjson_mut_obj_add_int(doc, root, "als", buf[1]);
         yyjson_mut_obj_add_int(doc, root, "ps", buf[2]);
-        yyjson_mut_obj_add_int(doc, root, "status", 0);
-
-        // 写入字符串
-        const char* json = yyjson_mut_write(doc, 0, NULL);
+        yyjson_mut_obj_add_int(doc, root, "status", 1);
 
         // topic: ap3216c qos0
         msg.qos     = 0;
-        msg.payload = (void*)json;
+        msg.payload = yyjson_mut_write(doc, 0, NULL);
         mqtt_publish(client, AP3216C_TOPIC, &msg);
 
+        memset(&msg, 0, sizeof(msg));
         yyjson_mut_doc_free(doc);
         sleep(SLEEP_TIME);
     }
