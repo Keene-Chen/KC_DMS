@@ -61,4 +61,4 @@ KC_DMS
 - 历史数据
   ![历史数据](https://cdn.jsdelivr.net/gh/Keene-Chen/KC_DMS/assets/Grafana%20历史数据.png)
 - EMQX 服务器状态
-  ![EMQX 服务器状态](https://cdn.jsdelivr.net/gh/Keene-Chen/KC_DMS/assets/Grafana%20EMQX%20服务器状态.png)
+  ![EMQX 服务器状态](https://cdn.jsdelivr.net/gh/Keene-Chen/KC_DMS/assets/Grafana%20EMQX服务器状态.png)
