@@ -1,3 +1,10 @@
+/**
+ * @file    : dht11_eh.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.05-9:37:11
+ * @details : dht11_eh
+ */
+
 #include "kc_dms.h"
 
 void dht11_handler(void* client, message_data_t* msg)

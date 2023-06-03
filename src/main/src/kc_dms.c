@@ -1,3 +1,10 @@
+/**
+ * @file    : kc_dms.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:39:17
+ * @details : 每个发送线程对应一个传感器主题
+ */
+
 #include "kc_dms.h"
 #include "mqttclient.h"
 #include "yyjson.h"

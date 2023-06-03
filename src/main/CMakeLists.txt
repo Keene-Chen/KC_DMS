@@ -1,8 +1,16 @@
+#[[
+  file    : main/CMakeLists.txt
+  author  : KeeneChen
+  date    : 2023.03.02-19:36:22
+  details : A submodule of this project
+  github  : https://github.com/Keene-Chen/KC_DMS
+]]
+
 cmake_minimum_required(VERSION 3.10.0)
 
 project(
   main
-  VERSION 1.0.0
+  VERSION 1.18.0
   DESCRIPTION "main")
 
 # 设置可执行文件生成位置
@@ -30,4 +38,5 @@ aux_source_directory(./callback callback)
 aux_source_directory(./event_handler event_handler)
 aux_source_directory(./tools tools)
 add_executable(kc_dms src/kc_dms.c ${callback} ${event_handler} ${tools})
-target_link_libraries(kc_dms PRIVATE ${LIB_MQTTCLIENT} ${LIB_PTHREAD} yyjson rxi_log)
+target_link_libraries(kc_dms PRIVATE ${LIB_MQTTCLIENT} ${LIB_PTHREAD} yyjson
+                                     rxi_log)

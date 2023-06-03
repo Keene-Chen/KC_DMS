@@ -1,3 +1,10 @@
+/**
+ * @file    : light_cb.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:36:49
+ * @details : light_cb
+ */
+
 #include "kc_dms.h"
 #include "yyjson.h"
 

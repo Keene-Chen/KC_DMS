@@ -1,3 +1,10 @@
+/**
+ * @file    : fire_cb.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:35:29
+ * @details : fire_cb
+ */
+
 #include "kc_dms.h"
 
 /* 字符串转数字，将浮点小数字符串转换为浮点数数值 */

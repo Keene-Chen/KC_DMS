@@ -1,3 +1,10 @@
+/**
+ * @file    : mqtt_config.h
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:39:05
+ * @details : mqtt_config
+ */
+
 #ifndef _MQTT_CONFIG_H_
 #define _MQTT_CONFIG_H_
 

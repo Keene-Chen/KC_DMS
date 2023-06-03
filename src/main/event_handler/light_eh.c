@@ -1,3 +1,10 @@
+/**
+ * @file    : light_eh.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.05-10:05:09
+ * @details : light_eh
+ */
+
 #include "kc_dms.h"
 
 void light_handler(void* client, message_data_t* msg)

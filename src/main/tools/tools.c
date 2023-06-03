@@ -1,3 +1,10 @@
+/**
+ * @file    : tools.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:40:25
+ * @details : tools
+ */
+
 #include "kc_dms.h"
 #include <unistd.h>
 

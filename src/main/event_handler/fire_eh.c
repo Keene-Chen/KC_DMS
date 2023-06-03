@@ -1,3 +1,10 @@
+/**
+ * @file    : fire_eh.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.05-10:27:06
+ * @details : fire_eh
+ */
+
 #include "kc_dms.h"
 
 void fire_handler(void* client, message_data_t* msg)

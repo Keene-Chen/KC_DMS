@@ -1,3 +1,10 @@
+/**
+ * @file    : icm20608_cb.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:35:43
+ * @details : icm20608_cb
+ */
+
 #include "kc_dms.h"
 
 /* icm20608传感器数据发送线程回调函数 */

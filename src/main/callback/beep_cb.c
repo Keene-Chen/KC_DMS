@@ -1,3 +1,10 @@
+/**
+ * @file    : beep_cb.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-11:34:50
+ * @details : beep_cb
+ */
+
 #include "kc_dms.h"
 
 /* beep传感器数据发送线程回调函数 */

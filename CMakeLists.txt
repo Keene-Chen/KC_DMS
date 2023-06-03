@@ -21,7 +21,7 @@ set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
 
 project(
   KC_DMS
-  VERSION 1.0.0
+  VERSION 1.18.0
   DESCRIPTION "KC_DMS")
 
 # 包括colors.cmake模块,调用其中定义的宏

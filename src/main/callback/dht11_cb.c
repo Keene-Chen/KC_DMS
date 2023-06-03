@@ -1,3 +1,10 @@
+/**
+ * @file    : dht11_cb.c
+ * @author  : KeeneChen
+ * @date    : 2023.04.03-10:35:17
+ * @details : dht11_cb
+ */
+
 #include "kc_dms.h"
 
 /* dht11传感器数据发送线程回调函数 */
