@@ -38,8 +38,8 @@ void* dht11_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-        yyjson_mut_obj_add_real(doc, root, "temp", buf[2] - 1 + ((float)buf[3] / 10));
-        yyjson_mut_obj_add_real(doc, root, "humi", buf[0] + 10);
+        yyjson_mut_obj_add_real(doc, root, "temp", buf[2] - 2 + ((float)buf[3] / 10));
+        yyjson_mut_obj_add_real(doc, root, "humi", buf[0] + 15);
         yyjson_mut_obj_add_int(doc, root, "status", 1);
 
         // topic: dht11 qos0

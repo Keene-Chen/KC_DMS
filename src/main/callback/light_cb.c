@@ -131,7 +131,7 @@ void* light_publish_thread(void* arg)
             yyjson_mut_doc_set_root(doc, root);
             yyjson_mut_obj_add_int(doc, root, "raw", avg);
             yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act);
-            yyjson_mut_obj_add_real(doc, root, "light", lux);
+            yyjson_mut_obj_add_real(doc, root, "lux", lux);
             yyjson_mut_obj_add_int(doc, root, "status", 1);
 
             // topic: light qos0

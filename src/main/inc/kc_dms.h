@@ -12,6 +12,7 @@
 #include <math.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -19,27 +20,28 @@
 #include "mqtt_log.h"
 #include "mqttclient.h"
 #include "random.h"
-#include "yyjson.h"
 #include "rxi_log.h"
+#include "yyjson.h"
 
-#define PUB_NUM    10000
+// TODO: 发一次一秒,一百万是11天,改成while(1)循环
+#define PUB_NUM    1000000
 #define SLEEP_TIME 1
 
 /* MQTT TOPIC */
-#define DHT11_TOPIC    "dht11"
-#define AP3216C_TOPIC  "ap3216c"
-#define ICM20608_TOPIC "icm20608"
-#define LIGHT_TOPIC    "light"
-#define FIRE_TOPIC     "fire"
-#define BEEP_TOPIC     "beep"
-#define LED_TOPIC      "led"
+#define DHT11_TOPIC    "kc_dms/dht11"
+#define AP3216C_TOPIC  "kc_dms/ap3216c"
+#define ICM20608_TOPIC "kc_dms/icm20608"
+#define LIGHT_TOPIC    "kc_dms/light"
+#define FIRE_TOPIC     "kc_dms/fire"
+#define BEEP_TOPIC     "kc_dms/beep"
+#define LED_TOPIC      "kc_dms/led"
 
 /* MQTT 发送线程宏函数 */
 #define mqtt_send_data(thrid, sense)                                        \
     do {                                                                    \
         ret = pthread_create(&thrid, NULL, sense##_publish_thread, client); \
         if (ret != 0) {                                                     \
-            log_error("create mqtt publish thread fail");                  \
+            log_error("create mqtt publish thread fail");                   \
             exit(ret);                                                      \
         }                                                                   \
     } while (0);
@@ -95,7 +97,7 @@ void delay_s_dev(const char* dev, int delay);
 /* 版本信息 */
 #define KCDMS_MAJOR  1
 #define KCDMS_MINJOR 0
-#define KCDMS_FIX    0
+#define KCDMS_FIX    1
 #define prompt(maj, min, fix)                                                                    \
     printf("\n\033[1;35m ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ \033[1;0m\n");           \
     printf("\033[1;35m ┃ KC_DMS                                     ┃ \033[1;0m\n");             \

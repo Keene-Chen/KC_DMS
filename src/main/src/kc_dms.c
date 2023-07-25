@@ -34,13 +34,13 @@ int main(void)
     mqtt_connect(client);
 
     /* 订阅主题 */
-    mqtt_subscribe(client, "dht11", QOS0, dht11_handler);
-    mqtt_subscribe(client, "ap3216c", QOS0, ap3216c_handler);
-    mqtt_subscribe(client, "icm20608", QOS0, icm20608_handler);
-    mqtt_subscribe(client, "light", QOS0, light_handler);
-    mqtt_subscribe(client, "fire", QOS0, fire_handler);
-    mqtt_subscribe(client, "beep", QOS0, beep_handler);
-    mqtt_subscribe(client, "led", QOS0, led_handler);
+    mqtt_subscribe(client, DHT11_TOPIC, QOS0, dht11_handler);
+    mqtt_subscribe(client, AP3216C_TOPIC, QOS0, ap3216c_handler);
+    mqtt_subscribe(client, ICM20608_TOPIC, QOS0, icm20608_handler);
+    mqtt_subscribe(client, LIGHT_TOPIC, QOS0, light_handler);
+    mqtt_subscribe(client, FIRE_TOPIC, QOS0, fire_handler);
+    mqtt_subscribe(client, BEEP_TOPIC, QOS0, beep_handler);
+    mqtt_subscribe(client, LED_TOPIC, QOS0, led_handler);
 
     /* 创建发送线程 */
     pthread_t thread[8];

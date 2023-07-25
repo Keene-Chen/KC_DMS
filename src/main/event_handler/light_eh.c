@@ -14,8 +14,8 @@ void light_handler(void* client, message_data_t* msg)
     //            msg->topic_name, (char*)msg->message->payload);
     yyjson_doc* doc = yyjson_read((char*)msg->message->payload, strlen(msg->message->payload), 0);
     if (doc) {
-        yyjson_val* light = yyjson_obj_get(doc->root, "light");
-        if (yyjson_get_real(light) > LIGHT_ALERT) {
+        yyjson_val* lux = yyjson_obj_get(doc->root, "lux");
+        if (yyjson_get_real(lux) > LIGHT_ALERT) {
             open_dev(GREEN_LED);
         }
         else {

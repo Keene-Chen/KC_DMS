@@ -53,9 +53,9 @@ void* led_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-        yyjson_mut_obj_add_int(doc, root, "redled_status", redled_data[0]);
-        yyjson_mut_obj_add_int(doc, root, "greenled_status", greenled_data[0]);
-        yyjson_mut_obj_add_int(doc, root, "blueled_status", blueled_data[0]);
+        yyjson_mut_obj_add_int(doc, root, "rled_status", redled_data[0]);
+        yyjson_mut_obj_add_int(doc, root, "gled_status", greenled_data[0]);
+        yyjson_mut_obj_add_int(doc, root, "bled_status", blueled_data[0]);
 
         // topic: led qos0
         msg.qos     = 0;

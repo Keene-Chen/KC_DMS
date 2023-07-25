@@ -18,11 +18,11 @@ void fire_handler(void* client, message_data_t* msg)
         yyjson_val* fire = yyjson_obj_get(doc->root, "raw");
         if (yyjson_get_int(fire) < FIRE_ALERT) {
             open_dev(RED_LED);
-            open_dev(BEEP_DEV);
+            // open_dev(BEEP_DEV);
         }
         else {
             close_dev(RED_LED);
-            close_dev(BEEP_DEV);
+            // close_dev(BEEP_DEV);
         }
     }
     yyjson_doc_free(doc);
