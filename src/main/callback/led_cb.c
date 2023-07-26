@@ -13,10 +13,9 @@ void* led_publish_thread(void* arg)
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
     memset(&msg, 0, sizeof(msg));
-    int ret                        = 0;
-    unsigned char redled_data[1]   = { 0 };
-    unsigned char greenled_data[1] = { 0 };
-    unsigned char blueled_data[1]  = { 0 };
+    int ret                  = 0;
+    unsigned char buf[3]     = { 0 };
+    const char* data_name[3] = { "rled_status", "gled_status", "bled_status" };
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -41,9 +40,9 @@ void* led_publish_thread(void* arg)
 
     /* 循环读取并发送数据 */
     for (int i = 0; i < PUB_NUM; ++i) {
-        ret = read(fd[0], redled_data, sizeof(redled_data));
-        ret = read(fd[1], greenled_data, sizeof(greenled_data));
-        ret = read(fd[2], blueled_data, sizeof(blueled_data));
+        ret = read(fd[0], &buf[0], 1);
+        ret = read(fd[1], &buf[1], 1);
+        ret = read(fd[2], &buf[2], 1);
         if (ret != 0) {
             log_error("read failed!");
             goto read_fail;
@@ -53,9 +52,9 @@ void* led_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-        yyjson_mut_obj_add_int(doc, root, "rled_status", redled_data[0]);
-        yyjson_mut_obj_add_int(doc, root, "gled_status", greenled_data[0]);
-        yyjson_mut_obj_add_int(doc, root, "bled_status", blueled_data[0]);
+        for (int i = 0; i < 3; ++i) {
+            yyjson_mut_obj_add_int(doc, root, data_name[i], buf[i]);
+        }
 
         // topic: led qos0
         msg.qos     = 0;

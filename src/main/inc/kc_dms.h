@@ -11,30 +11,32 @@
 #include <fcntl.h>
 #include <math.h>
 #include <pthread.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "mqtt_config.h"
 #include "mqtt_log.h"
 #include "mqttclient.h"
+#include "msg_data.h"
 #include "random.h"
 #include "rxi_log.h"
 #include "yyjson.h"
 
+/* MQTT TOPIC */
+#define TOPIC_PREFIX   "kc_dms/"
+#define DHT11_TOPIC    TOPIC_PREFIX "dht11"
+#define AP3216C_TOPIC  TOPIC_PREFIX "ap3216c"
+#define ICM20608_TOPIC TOPIC_PREFIX "icm20608"
+#define LIGHT_TOPIC    TOPIC_PREFIX "light"
+#define FIRE_TOPIC     TOPIC_PREFIX "fire"
+#define BEEP_TOPIC     TOPIC_PREFIX "beep"
+#define LED_TOPIC      TOPIC_PREFIX "led"
+
 // TODO: 发一次一秒,一百万是11天,改成while(1)循环
 #define PUB_NUM    1000000
 #define SLEEP_TIME 1
-
-/* MQTT TOPIC */
-#define DHT11_TOPIC    "kc_dms/dht11"
-#define AP3216C_TOPIC  "kc_dms/ap3216c"
-#define ICM20608_TOPIC "kc_dms/icm20608"
-#define LIGHT_TOPIC    "kc_dms/light"
-#define FIRE_TOPIC     "kc_dms/fire"
-#define BEEP_TOPIC     "kc_dms/beep"
-#define LED_TOPIC      "kc_dms/led"
 
 /* MQTT 发送线程宏函数 */
 #define mqtt_send_data(thrid, sense)                                        \
@@ -75,38 +77,33 @@ void beep_handler(void* client, message_data_t* msg);
 void led_handler(void* client, message_data_t* msg);
 
 /* 应用层设备操作函数 */
-#define DHT11_DEV    "/dev/dht11"
-#define AP3216C_DEV  "/dev/ap3216c"
-#define ICM20608_DEV "/dev/icm20608"
-#define LIGHT_DEV    "/dev/light"
-#define FIRE_DEV     "/dev/fire"
-#define BEEP_DEV     "/dev/beep_misc"
-#define RED_LED      "/dev/redled"
-#define GREEN_LED    "/dev/greenled"
-#define BLUE_LED     "/dev/blueled"
+#define DEV_PREFIX   "/dev/"
+#define DHT11_DEV    DEV_PREFIX "dht11"
+#define AP3216C_DEV  DEV_PREFIX "ap3216c"
+#define ICM20608_DEV DEV_PREFIX "icm20608"
+#define LIGHT_DEV    DEV_PREFIX "light"
+#define FIRE_DEV     DEV_PREFIX "fire"
+#define BEEP_DEV     DEV_PREFIX "beep_misc"
+#define RED_LED      DEV_PREFIX "redled"
+#define GREEN_LED    DEV_PREFIX "greenled"
+#define BLUE_LED     DEV_PREFIX "blueled"
 void open_dev(const char* dev);
 void close_dev(const char* dev);
 void delay_s_dev(const char* dev, int delay);
+
+/* 常用工具函数 */
+#define MAX(a, b)     ((a) > (b) ? (a) : (b))
+#define MAX3(a, b, c) MAX(MAX(a, b), c)
+#define MIN(a, b)     ((a) < (b) ? (a) : (b))
+#define MIN3(a, b, c) MIN(MIN(a, b), c)
+#define ABS(a)        ((a) > 0 ? (a) : -(a))
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define PI            3.14159265358979323846
 
 /* 传感器预警值 */
 #define TEMP_ALERT  31
 #define HUMI_ALERT  70
 #define FIRE_ALERT  4000
 #define LIGHT_ALERT 300
-
-/* 版本信息 */
-#define KCDMS_MAJOR  1
-#define KCDMS_MINJOR 0
-#define KCDMS_FIX    1
-#define prompt(maj, min, fix)                                                                    \
-    printf("\n\033[1;35m ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ \033[1;0m\n");           \
-    printf("\033[1;35m ┃ KC_DMS                                     ┃ \033[1;0m\n");             \
-    printf("\033[1;35m ┃ Author : KeeneChen                         ┃ \033[1;0m\n");             \
-    printf("\033[1;35m ┃ Version: v%d.%d.%d                            ┃ \033[1;0m\n", maj, min, \
-           fix);                                                                                 \
-    printf("\033[1;35m ┃ GitHub : https://github.com/Keene-Chen     ┃ \033[1;0m\n");             \
-    printf("\033[1;35m ┃ Data monitoring system for embedded Linux  ┃ \033[1;0m\n");             \
-    printf("\033[1;35m ┃ and EMQX cloud platform                    ┃ \033[1;0m\n");             \
-    printf("\033[1;35m ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ \033[1;0m\n");
 
 #endif // __KC_DMS_H__

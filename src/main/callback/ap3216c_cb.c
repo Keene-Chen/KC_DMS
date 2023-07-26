@@ -14,8 +14,9 @@ void* ap3216c_publish_thread(void* arg)
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
     memset(&msg, 0, sizeof(msg));
-    int ret               = 0;
-    unsigned short buf[3] = { 0 };
+    int ret                  = 0;
+    unsigned short buf[3]    = { 0 };
+    const char* data_name[4] = { "ir", "ps", "als", "status" };
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -39,10 +40,14 @@ void* ap3216c_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-        yyjson_mut_obj_add_int(doc, root, "ir", buf[0]);
-        yyjson_mut_obj_add_int(doc, root, "als", buf[1]);
-        yyjson_mut_obj_add_int(doc, root, "ps", buf[2]);
-        yyjson_mut_obj_add_int(doc, root, "status", 1);
+        for (int i = 0; i < 4; ++i) {
+            if (i < 3) {
+                yyjson_mut_obj_add_int(doc, root, data_name[i], buf[i]);
+            }
+            else {
+                yyjson_mut_obj_add_int(doc, root, data_name[i], 1);
+            }
+        }
 
         // topic: ap3216c qos0
         msg.qos     = 0;

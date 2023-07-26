@@ -13,8 +13,10 @@ void* dht11_publish_thread(void* arg)
     mqtt_client_t* client = (mqtt_client_t*)arg;
     mqtt_message_t msg;
     memset(&msg, 0, sizeof(msg));
-    int ret              = 0;
-    unsigned char buf[5] = { 0 };
+    int ret                  = 0;
+    unsigned char buf[5]     = { 0 };
+    const char* data_name[3] = { "temp", "humi", "status" };
+    const char* FORMAT       = "%.2f";
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -38,9 +40,11 @@ void* dht11_publish_thread(void* arg)
         yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
-        yyjson_mut_obj_add_real(doc, root, "temp", buf[2] - 2 + ((float)buf[3] / 10));
-        yyjson_mut_obj_add_real(doc, root, "humi", buf[0] + 15);
-        yyjson_mut_obj_add_int(doc, root, "status", 1);
+        char str[10] = { 0 };
+        sprintf(str, FORMAT, buf[2] - 2 + ((float)buf[3] / 10));
+        yyjson_mut_obj_add_real(doc, root, data_name[0], atof(str));
+        yyjson_mut_obj_add_real(doc, root, data_name[1], buf[0] + 15);
+        yyjson_mut_obj_add_int(doc, root, data_name[2], 1);
 
         // topic: dht11 qos0
         msg.qos     = 0;

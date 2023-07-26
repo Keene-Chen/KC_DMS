@@ -41,3 +41,5 @@ void delay_s_dev(const char* dev, int delay)
     sleep(delay);
     close_dev(dev);
 }
+
+/* 常用工具函数 */

@@ -95,6 +95,8 @@ void* fire_publish_thread(void* arg)
     memset(&msg, 0, sizeof(msg));
     unsigned short buf[3] = { 0 };
     int ret = 0, count = 0, avg = 0;
+    const char* data_name[3] = { "raw", "voltage", "status" };
+    const char* FORMAT       = "%.2f";
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -106,19 +108,22 @@ void* fire_publish_thread(void* arg)
             count += imx6ulladc.raw;
         }
         avg = count / 20;
-        if (ret == 0) { /* 数据读取成功 */
 
+        /* 数据读取成功 */
+        if (ret == 0) {
             /* 使用json构建payload */
             yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
             yyjson_mut_val* root = yyjson_mut_obj(doc);
             yyjson_mut_doc_set_root(doc, root);
-            yyjson_mut_obj_add_int(doc, root, "raw", avg);
-            yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act / 100);
+            yyjson_mut_obj_add_int(doc, root, data_name[0], avg);
+            char str[10] = { 0 };
+            sprintf(str, FORMAT, imx6ulladc.act / 100);
+            yyjson_mut_obj_add_real(doc, root, data_name[1], atof(str));
             if (avg < 4000) {
-                yyjson_mut_obj_add_int(doc, root, "status", 1);
+                yyjson_mut_obj_add_int(doc, root, data_name[2], 1);
             }
             else {
-                yyjson_mut_obj_add_int(doc, root, "status", 0);
+                yyjson_mut_obj_add_int(doc, root, data_name[2], 0);
             }
 
             // topic: fire qos0

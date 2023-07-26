@@ -2,6 +2,7 @@ bin
 cmake-build
 cmake-ninja
 cmake-vscode
+test
 
 CMakeLists.txt.user
 CMakeCache.txt

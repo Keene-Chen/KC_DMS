@@ -30,9 +30,7 @@ enum path_index {
     IN_VOLTAGE_RAW,
 };
 
-/*
- * ADC数据设备结构体
- */
+/* ADC数据设备结构体 */
 struct adc_dev {
     int raw;
     float scale;
@@ -41,11 +39,11 @@ struct adc_dev {
 
 struct adc_dev imx6ulladc;
 
-/*
- * @description			: 读取指定文件内容
- * @param - filename 	: 要读取的文件路径
- * @param - str 		: 读取到的文件字符串
- * @return 				: 0 成功;其他 失败
+/**
+ * @brief			: 读取指定文件内容
+ * @param filename 	: 要读取的文件路径
+ * @param str 		: 读取到的文件字符串
+ * @return      	: 0 成功;其他 失败
  */
 static int file_data_read(char* filename, char* str)
 {
@@ -70,10 +68,10 @@ static int file_data_read(char* filename, char* str)
     return 0;
 }
 
-/*
- * @description	: 获取ADC数据
- * @param - dev : 设备结构体
- * @return 		: 0 成功;其他 失败
+/**
+ * @brief     : 获取ADC数据
+ * @param dev : 设备结构体
+ * @return 	  : 0 成功;其他 失败
  */
 static int adc_read(struct adc_dev* dev)
 {
@@ -96,6 +94,8 @@ void* light_publish_thread(void* arg)
     memset(&msg, 0, sizeof(msg));
     unsigned short buf[3] = { 0 };
     int ret = 0, count = 0, avg = 0;
+    const char* data_name[4] = { "raw", "voltage", "lux", "status" };
+    const char* FORMAT       = "%.2f";
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -129,10 +129,14 @@ void* light_publish_thread(void* arg)
             yyjson_mut_doc* doc  = yyjson_mut_doc_new(NULL);
             yyjson_mut_val* root = yyjson_mut_obj(doc);
             yyjson_mut_doc_set_root(doc, root);
-            yyjson_mut_obj_add_int(doc, root, "raw", avg);
-            yyjson_mut_obj_add_real(doc, root, "voltage", imx6ulladc.act);
-            yyjson_mut_obj_add_real(doc, root, "lux", lux);
-            yyjson_mut_obj_add_int(doc, root, "status", 1);
+
+            yyjson_mut_obj_add_int(doc, root, data_name[0], avg);
+            char str[10] = { 0 };
+            sprintf(str, FORMAT, imx6ulladc.act);
+            yyjson_mut_obj_add_real(doc, root, data_name[1], atof(str));
+            sprintf(str, FORMAT, lux);
+            yyjson_mut_obj_add_real(doc, root, data_name[2], atof(str));
+            yyjson_mut_obj_add_int(doc, root, data_name[3], 1);
 
             // topic: light qos0
             msg.qos     = 0;

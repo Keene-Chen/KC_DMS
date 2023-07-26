@@ -15,6 +15,7 @@ void* beep_publish_thread(void* arg)
     memset(&msg, 0, sizeof(msg));
     int ret               = 0;
     unsigned short buf[1] = { 0 };
+    char* data_name[3]    = { "open", "close", "status" };
 
     /* 监听订阅主题 */
     mqtt_list_subscribe_topic(client);
@@ -39,14 +40,14 @@ void* beep_publish_thread(void* arg)
         yyjson_mut_val* root = yyjson_mut_obj(doc);
         yyjson_mut_doc_set_root(doc, root);
         if (buf[0] == 1) {
-            yyjson_mut_obj_add_int(doc, root, "open", 1);
-            yyjson_mut_obj_add_int(doc, root, "close", 0);
+            yyjson_mut_obj_add_int(doc, root, data_name[0], 1);
+            yyjson_mut_obj_add_int(doc, root, data_name[1], 0);
         }
         else {
-            yyjson_mut_obj_add_int(doc, root, "open", 0);
-            yyjson_mut_obj_add_int(doc, root, "close", 1);
+            yyjson_mut_obj_add_int(doc, root, data_name[0], 0);
+            yyjson_mut_obj_add_int(doc, root, data_name[1], 1);
         }
-        yyjson_mut_obj_add_int(doc, root, "status", buf[0]);
+        yyjson_mut_obj_add_int(doc, root, data_name[2], buf[0]);
 
         // topic: beep qos0
         msg.qos     = 0;
